@@ -1,0 +1,24 @@
+No Order_status TrackingCode Courier ETA Size Sender_info Recipient_info
+
+
+No = number of the order
+
+Order_status = 0 -> to be accepted or declined
+Order_status = 1 -> to be delivered
+Order_status = 2 -> delivered
+
+TrackingCode = AWB
+
+Courier = the assigned courier
+
+ETA = estimated time of arrival
+
+Size = size of the Parcel
+
+Sender_info -> name
+            -> address
+            -> phone number
+
+Recipient_info -> name
+               -> address
+               -> phone number
