@@ -12,6 +12,15 @@ import java.util.Arrays;
 public class Database {
     public static ArrayList<String> empty_list = new ArrayList<>();
     public static ArrayList<Parcel> database = new ArrayList<>();
+    public static Parcel search_AWB(int AWB)
+    {
+        for (Parcel item:database)
+        {
+            if(item.AWB==AWB)
+                return item;
+        }
+        return null;
+    }
     public static void print_database()
     {
         for (Parcel parcel:database)
@@ -83,11 +92,10 @@ public class Database {
     public static void main(String[] args) {
         Parcel p1= new Parcel(0,0,"No one",0,0,empty_list,empty_list);
         Parcel p2= new Parcel(0,1,"No one",0,0,empty_list,empty_list);
-        Database d = new Database();
         Database.write_in_database(p1);
         Database.write_in_database(p2);
         Database.write_in_file();
-        print_database();
         read_all();
+        print_database();
     }
 }
