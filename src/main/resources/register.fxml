@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ChoiceBox?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.PasswordField?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ControllerRegister">
+    <children>
+        <Button layoutX="14.0" layoutY="361.0" mnemonicParsing="false" onAction="#gotoMainMenu" text="Back to Main Menu" />
+        <Label layoutX="193.0" layoutY="51.0" text="Register screen">
+            <font>
+                <Font size="32.0" />
+            </font>
+        </Label>
+        <Label layoutX="268.0" layoutY="123.0" text="Register as..." />
+        <ChoiceBox fx:id="registerOptions" layoutX="226.0" layoutY="152.0" prefWidth="150.0" />
+        <TextField fx:id="usernameField" layoutX="226.0" layoutY="200.0" promptText="Username" />
+        <PasswordField fx:id="passwordField" layoutX="226.0" layoutY="239.0" promptText="Password" />
+        <PasswordField fx:id="keycodeField" layoutX="226.0" layoutY="279.0" promptText="Keycode" />
+        <Button layoutX="271.0" layoutY="336.0" mnemonicParsing="false" onAction="#checkValidRegistration" text="Register" />
+        <Label fx:id="keycodeLabel" layoutX="408.0" layoutY="283.0" />
+        <Label fx:id="usernameLabel" layoutX="408.0" layoutY="204.0" />
+    </children>
+</AnchorPane>
