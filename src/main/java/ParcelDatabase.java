@@ -9,11 +9,12 @@ import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.Arrays;
 
-public class Database {
+public class ParcelDatabase {
     public static ArrayList<String> empty_list = new ArrayList<>();
     public static ArrayList<Parcel> database = new ArrayList<>();
     public static Parcel search_AWB(int AWB)
     {
+        read_all();
         for (Parcel item:database)
         {
             if(item.AWB==AWB)
@@ -23,6 +24,7 @@ public class Database {
     }
     public static void print_database()
     {
+        read_all();
         for (Parcel parcel:database)
         {
             System.out.println(parcel);
@@ -30,9 +32,11 @@ public class Database {
     }
     public static void write_in_database(Parcel parcel)
     {
+        read_all();
         database.add(parcel);
+        write_in_file();
     }
-    public static void write_in_file()
+    private static void write_in_file()
     {
         try {
             BufferedWriter writer = Files.newBufferedWriter(Paths.get("database.json"));
@@ -62,27 +66,30 @@ public class Database {
     }
 
     public static void read_all() {
+        database.clear();
+        File file = new File("database.json");
+
         try {
             Reader reader = Files.newBufferedReader(Paths.get("database.json"));
 
-            JsonArray parser = (JsonArray) Jsoner.deserialize(reader);
+            if(file.length()!=0) {
+                JsonArray parser = (JsonArray) Jsoner.deserialize(reader);
 
-            database.clear();
+                parser.forEach(entry -> {
+                    JsonObject item = (JsonObject) entry;
+                    BigDecimal Order_Status = (BigDecimal) item.get("Order_Status");
+                    BigDecimal AWB = (BigDecimal) item.get("AWB");
+                    String Courier = (String) item.get("Courier");
+                    BigDecimal ETA = (BigDecimal) item.get("ETA");
+                    BigDecimal Size = (BigDecimal) item.get("Size");
+                    ArrayList<String> Sender_info = (ArrayList<String>) item.get("Sender_info");
+                    ArrayList<String> Recipient_info = (ArrayList<String>) item.get("Recipient_info");
+                    Parcel new_parcel = new Parcel(Order_Status.intValue(), AWB.intValue(), Courier, ETA.intValue(), Size.intValue(), Sender_info, Recipient_info);
+                    database.add(new_parcel);
+                });
 
-            parser.forEach(entry -> {
-                JsonObject item = (JsonObject) entry;
-                BigDecimal Order_Status = (BigDecimal) item.get("Order_Status");
-                BigDecimal AWB = (BigDecimal) item.get("AWB");
-                String Courier = (String) item.get("Courier");
-                BigDecimal ETA = (BigDecimal) item.get("ETA");
-                BigDecimal Size = (BigDecimal) item.get("Size");
-                ArrayList<String> Sender_info = (ArrayList<String>) item.get("Sender_info");
-                ArrayList<String> Recipient_info = (ArrayList<String>) item.get("Recipient_info");
-                Parcel new_parcel = new Parcel(Order_Status.intValue(),AWB.intValue(),Courier,ETA.intValue(),Size.intValue(),Sender_info,Recipient_info);
-                database.add(new_parcel);
-            });
-
-            reader.close();
+                reader.close();
+            }
 
         } catch (Exception ex) {
             ex.printStackTrace();
@@ -92,10 +99,8 @@ public class Database {
     public static void main(String[] args) {
         Parcel p1= new Parcel(0,0,"No one",0,0,empty_list,empty_list);
         Parcel p2= new Parcel(0,1,"No one",0,0,empty_list,empty_list);
-        Database.write_in_database(p1);
-        Database.write_in_database(p2);
-        Database.write_in_file();
-        read_all();
+        ParcelDatabase.write_in_database(p1);
+        ParcelDatabase.write_in_database(p2);
         print_database();
     }
 }

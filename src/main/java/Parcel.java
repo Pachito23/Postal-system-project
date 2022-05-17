@@ -24,9 +24,9 @@ public class Parcel {
         if(info==null || info.isEmpty())
             return "Not set";
         String aux="";
-        aux =aux+ "Name: "+info.get(1)+'\n';
+        aux =aux+ "Name: "+info.get(0)+'\n';
         aux =aux+ "Phone number: "+info.get(1)+'\n';
-        aux =aux+ "Address: "+info.get(1)+'\n';
+        aux =aux+ "Address: "+info.get(2)+'\n';
         return aux;
     }
 
