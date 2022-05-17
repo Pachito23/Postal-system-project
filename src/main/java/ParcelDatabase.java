@@ -17,20 +17,37 @@ public class ParcelDatabase {
         read_all();
         for (Parcel item:database)
         {
-            if(item.AWB==AWB)
+            if(item.AWB==AWB) {
                 return item;
+            }
         }
+        database.clear();
         return null;
+    }
+    public static void delete_from_database(int AWB)
+    {
+        read_all();
+        Parcel p = search_AWB(AWB);
+        if(p!=null) {
+            database.remove(p);
+        }
+        write_in_file();
     }
     public static void print_database()
     {
         read_all();
+        if(database.isEmpty())
+        {
+            System.out.println("Empty database");
+            return;
+        }
         for (Parcel parcel:database)
         {
             System.out.println(parcel);
         }
+        database.clear();
     }
-    public static void write_in_database(Parcel parcel)
+    public static void add_to_database(Parcel parcel)
     {
         read_all();
         database.add(parcel);
@@ -94,13 +111,5 @@ public class ParcelDatabase {
         } catch (Exception ex) {
             ex.printStackTrace();
         }
-    }
-
-    public static void main(String[] args) {
-        Parcel p1= new Parcel(0,0,"No one",0,0,empty_list,empty_list);
-        Parcel p2= new Parcel(0,1,"No one",0,0,empty_list,empty_list);
-        ParcelDatabase.write_in_database(p1);
-        ParcelDatabase.write_in_database(p2);
-        print_database();
     }
 }
