@@ -19,7 +19,7 @@ public class Parcel {
         this.Recipient_info=Recipient_info;
     }
 
-    private String personal_info(ArrayList<String> info)
+    public String personal_info(ArrayList<String> info)
     {
         if(info==null || info.isEmpty())
             return "Not set";
@@ -37,9 +37,9 @@ public class Parcel {
         to_print = to_print+"AWB: "+AWB+" - ";
         to_print = to_print+"Courier: "+Courier+" - ";
         to_print = to_print+"ETA: "+ETA+" - ";
-        to_print = to_print+"Size: "+Size+" - ";
-        to_print = to_print+"Sender info: "+ personal_info(Sender_info)+" - ";
-        to_print = to_print+"Recipient info: "+personal_info(Recipient_info);
+        to_print = to_print+"Size: "+Size+"\n";
+        to_print = to_print+"\tSender info: \n"+ personal_info(Sender_info);
+        to_print = to_print+"\tRecipient info: \n"+personal_info(Recipient_info);
         return to_print;
     }
 }

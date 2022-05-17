@@ -6,6 +6,7 @@ import java.io.BufferedWriter;
 import java.io.File;
 import java.io.IOException;
 import java.io.Reader;
+import java.math.BigDecimal;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.ArrayList;
@@ -14,23 +15,24 @@ import java.util.Arrays;
 public class ProfileDatabase {
     private static ArrayList<Profile> database = new ArrayList<>();
 
-    public static boolean login(String username, String password)
+    public static Profile login(String username, String password)
     {
         database.clear();
         read_all();
         String password_encrypted = Profile.Encrypt(password+username);
-        System.out.println("To find:"+username+" -> "+password_encrypted);
+        //System.out.println("To find:"+username+" -> "+password_encrypted);
         for(Profile p:database)
         {
-            System.out.println("Now at:"+p.getUsername()+" -> "+p.getPassword());
-            if(p.getUsername().equals(username) && p.getPassword().equals(password_encrypted))
-            {
+            //System.out.println("Now at:"+p.getUsername()+" -> "+p.getPassword());
+            if(p.getUsername().equals(username) && p.getPassword().equals(password_encrypted)) {
                 database.clear();
-                return true;
+                if (p.getProfile_type() == 2) {
+                    return new Customer(p.getUsername(), p.getPassword(), p.getProfile_type(), true, p.getinformation());
+                }
             }
         }
         database.clear();
-        return false;
+        return null;
     }
     public static void register(Profile new_profile)
     {
@@ -60,6 +62,8 @@ public class ProfileDatabase {
                 JsonObject obj = new JsonObject();
                 obj.put("username", item.getUsername());
                 obj.put("password", item.getPassword());
+                obj.put("Profile_type",item.getProfile_type());
+                obj.put("information",item.getinformation());
                 total.addAll(Arrays.asList(obj));
             }
 
@@ -86,7 +90,9 @@ public class ProfileDatabase {
                     JsonObject item = (JsonObject) entry;
                     String username = (String) item.get("username");
                     String password = (String) item.get("password");
-                    Profile new_profile = new Profile(username, password,true);
+                    BigDecimal profile_type = (BigDecimal) item.get("Profile_type");
+                    ArrayList<String> information = (ArrayList<String>) item.get("information");
+                    Profile new_profile = new Profile(username, password,profile_type.intValue(),true, information);
                     database.add(new_profile);
                 });
 
@@ -105,13 +111,5 @@ public class ProfileDatabase {
             System.out.println(p.getUsername() + "->" + p.getPassword());
         }
         System.out.println();
-    }
-
-    public static void main(String[] args) {
-        Profile p1 = new Profile("Guy1","123",false);
-        Profile p2 = new Profile("Guy2","789",false);
-        ProfileDatabase.register(p1);
-        ProfileDatabase.register(p2);
-        System.out.println(login("Guy1","123"));
     }
 }
