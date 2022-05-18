@@ -33,9 +33,15 @@ public class ParcelDatabase {
         }
         write_in_file();
     }
+
+    public static void update_database()
+    {
+        write_in_file();
+        database.clear();
+    }
+
     public static void print_database()
     {
-        read_all();
         if(database.isEmpty())
         {
             System.out.println("Empty database");
@@ -45,7 +51,6 @@ public class ParcelDatabase {
         {
             System.out.println(parcel);
         }
-        database.clear();
     }
     public static void add_to_database(Parcel parcel)
     {
