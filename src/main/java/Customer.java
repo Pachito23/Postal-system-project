@@ -45,11 +45,20 @@ public class Customer extends Profile{
 
     public void Send_Parcel(int Size,String Recipient_FullName, String Recipient_PhoneNumber, String Recipient_Address)
     {
-        ArrayList<String> recipient_info=new ArrayList<>(3);
-        recipient_info.add(Recipient_FullName);
-        recipient_info.add(Recipient_PhoneNumber);
-        recipient_info.add(Recipient_Address);
-        Parcel p = new Parcel(0,0,"Not set",0,Size,personal_info,recipient_info);
-        ParcelDatabase.add_to_database(p);
+        if(Size>100)
+        {
+            System.out.println("Size too big, maximum size is 100");
+            System.out.println("Please enter new size");
+            //enter a new size <-----------------------------------------------
+        }
+        else
+        {
+            ArrayList<String> recipient_info=new ArrayList<>(3);
+            recipient_info.add(Recipient_FullName);
+            recipient_info.add(Recipient_PhoneNumber);
+            recipient_info.add(Recipient_Address);
+            Parcel p = new Parcel(0,0,"Not set",0,Size,personal_info,recipient_info);
+            ParcelDatabase.add_to_database(p);
+        }
     }
 }

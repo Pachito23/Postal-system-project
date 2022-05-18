@@ -3,9 +3,10 @@ import com.sun.jdi.Value;
 public class Cipher {
 
     public void cipher() {
-        Integer a=500;
-        Integer b=200;
-        System.out.println(hashCode()+" " +b.hashCode());
+        String a="abc";
+        String b="200";
+        String c="abc";
+        System.out.println(a.hashCode()+" " +b.hashCode()+" "+c.hashCode());
     }
 
     public static void main(String[] args) {

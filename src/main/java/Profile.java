@@ -69,6 +69,7 @@ public class Profile {
 
     public static String Encrypt(String text)
     {
-        return text;
+        String encoded = text.hashCode()+"";
+        return encoded;
     }
 }

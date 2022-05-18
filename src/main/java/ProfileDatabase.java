@@ -26,6 +26,10 @@ public class ProfileDatabase {
             //System.out.println("Now at:"+p.getUsername()+" -> "+p.getPassword());
             if(p.getUsername().equals(username) && p.getPassword().equals(password_encrypted)) {
                 database.clear();
+                if(p.getProfile_type()==0)
+                {
+                    return new Office_Manager(p.getUsername(), p.getPassword(), p.getProfile_type(), true, p.getinformation());
+                }
                 if (p.getProfile_type() == 2) {
                     return new Customer(p.getUsername(), p.getPassword(), p.getProfile_type(), true, p.getinformation());
                 }
@@ -106,10 +110,12 @@ public class ProfileDatabase {
 
     public static void print()
     {
+        read_all();
         for(Profile p:database)
         {
             System.out.println(p.getUsername() + "->" + p.getPassword());
         }
         System.out.println();
+        database.clear();
     }
 }
