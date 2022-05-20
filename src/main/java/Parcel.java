@@ -4,11 +4,11 @@ public class Parcel {
     public int Order_Status;
     public int AWB;
     public String Courier;
-    public int ETA;
+    public String ETA;
     public int Size;
     public ArrayList<String> Sender_info;
     public ArrayList<String> Recipient_info;
-    public Parcel(int Order_status, int AWB, String Courier, int ETA, int Size, ArrayList<String> Sender_info, ArrayList<String> Recipient_info)
+    public Parcel(int Order_status, int AWB, String Courier, String ETA, int Size, ArrayList<String> Sender_info, ArrayList<String> Recipient_info)
     {
         this.Order_Status=Order_status;
         this.AWB=AWB;

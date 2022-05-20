@@ -57,7 +57,7 @@ public class Customer extends Profile{
             recipient_info.add(Recipient_FullName);
             recipient_info.add(Recipient_PhoneNumber);
             recipient_info.add(Recipient_Address);
-            Parcel p = new Parcel(0,0,"Not set",0,Size,personal_info,recipient_info);
+            Parcel p = new Parcel(0,0,"Not set","Not set",Size,personal_info,recipient_info);
             ParcelDatabase.add_to_database(p);
         }
     }
