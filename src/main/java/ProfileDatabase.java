@@ -26,9 +26,11 @@ public class ProfileDatabase {
             //System.out.println("Now at:"+p.getUsername()+" -> "+p.getPassword());
             if(p.getUsername().equals(username) && p.getPassword().equals(password_encrypted)) {
                 database.clear();
-                if(p.getProfile_type()==0)
-                {
+                if(p.getProfile_type()==0) {
                     return new Office_Manager(p.getUsername(), p.getPassword(), p.getProfile_type(), true, p.getinformation());
+                }
+                if (p.getProfile_type() == 1) {
+                    return new Courier(p.getUsername(), p.getPassword(), p.getProfile_type(), true, p.getinformation());
                 }
                 if (p.getProfile_type() == 2) {
                     return new Customer(p.getUsername(), p.getPassword(), p.getProfile_type(), true, p.getinformation());
@@ -38,6 +40,29 @@ public class ProfileDatabase {
         database.clear();
         return null;
     }
+
+    public static boolean Add_cargo_courier(String username,int cargo_to_add)
+    {
+        read_all();
+        for(Profile p:database)
+        {
+            if(p.getUsername().equals(username) && p.getProfile_type()==1)
+            {
+                int new_size = Integer.valueOf(p.information.get(2))+cargo_to_add;
+                if(new_size>Integer.valueOf(p.information.get(1)))
+                {
+                    System.out.println("Courier already full");
+                    return false;
+                }
+                p.information.remove(2);
+                p.information.add(2,Integer.toString(new_size));
+            }
+        }
+        write_in_file();
+        database.clear();
+        return true;
+    }
+
     public static void register(Profile new_profile)
     {
         database.clear();
@@ -54,6 +79,7 @@ public class ProfileDatabase {
         write_in_file();
         database.clear();
     }
+
     private static void write_in_file()
     {
         try {
@@ -81,14 +107,13 @@ public class ProfileDatabase {
     }
 
     private static void read_all() {
+        database.clear();
         try {
             Reader reader = Files.newBufferedReader(Paths.get("LoginDatabase.json"));
             File file = new File("LoginDatabase.json");
 
             if(file.length()!=0) {
                 JsonArray parser = (JsonArray) Jsoner.deserialize(reader);
-
-                database.clear();
 
                 parser.forEach(entry -> {
                     JsonObject item = (JsonObject) entry;
@@ -106,6 +131,17 @@ public class ProfileDatabase {
         } catch (Exception ex) {
             ex.printStackTrace();
         }
+    }
+
+    public static boolean courier_exists(String username)
+    {
+        read_all();
+        for(Profile p:database)
+        {
+            if(p.getUsername().equals(username) && p.getProfile_type()==1)
+                return true;
+        }
+        return false;
     }
 
     public static void print()

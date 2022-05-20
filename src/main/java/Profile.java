@@ -14,7 +14,7 @@ public class Profile {
     private String username;
     private String password;
     private int Profile_type;
-    private ArrayList<String> information= new ArrayList<>(3);
+    protected ArrayList<String> information= new ArrayList<>(3);
     //0->Manager 1->Courier 2->Customer
 
     public String getUsername()

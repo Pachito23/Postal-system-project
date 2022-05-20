@@ -102,11 +102,11 @@ public class ParcelDatabase {
                     BigDecimal Order_Status = (BigDecimal) item.get("Order_Status");
                     BigDecimal AWB = (BigDecimal) item.get("AWB");
                     String Courier = (String) item.get("Courier");
-                    BigDecimal ETA = (BigDecimal) item.get("ETA");
+                    String ETA = (String) item.get("ETA");
                     BigDecimal Size = (BigDecimal) item.get("Size");
                     ArrayList<String> Sender_info = (ArrayList<String>) item.get("Sender_info");
                     ArrayList<String> Recipient_info = (ArrayList<String>) item.get("Recipient_info");
-                    Parcel new_parcel = new Parcel(Order_Status.intValue(), AWB.intValue(), Courier, ETA.intValue(), Size.intValue(), Sender_info, Recipient_info);
+                    Parcel new_parcel = new Parcel(Order_Status.intValue(), AWB.intValue(), Courier, ETA, Size.intValue(), Sender_info, Recipient_info);
                     database.add(new_parcel);
                 });
 
