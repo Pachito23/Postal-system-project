@@ -11,21 +11,28 @@ import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.concurrent.atomic.AtomicBoolean;
 
 public class ProfileDatabase {
     private static ArrayList<Profile> database = new ArrayList<>();
+    private static Profile disposable_admin = new Profile("Admin","Admin",0,false);
+    private static boolean no_admin=false;
 
     public static Profile login(String username, String password)
     {
         database.clear();
         read_all();
         String password_encrypted = Profile.Encrypt(password+username);
-        //System.out.println("To find:"+username+" -> "+password_encrypted);
         for(Profile p:database)
         {
-            //System.out.println("Now at:"+p.getUsername()+" -> "+p.getPassword());
             if(p.getUsername().equals(username) && p.getPassword().equals(password_encrypted)) {
                 database.clear();
+                if(p.getProfile_type()==0) {
+                    return new Office_Manager(p.getUsername(), p.getPassword(), p.getProfile_type(), true, p.getinformation());
+                }
+                if (p.getProfile_type() == 1) {
+                    return new Courier(p.getUsername(), p.getPassword(), p.getProfile_type(), true, p.getinformation());
+                }
                 if (p.getProfile_type() == 2) {
                     return new Customer(p.getUsername(), p.getPassword(), p.getProfile_type(), true, p.getinformation());
                 }
@@ -34,13 +41,35 @@ public class ProfileDatabase {
         database.clear();
         return null;
     }
-    public static void register(Profile new_profile)
+
+    public static boolean Add_cargo_courier(String username,int cargo_to_add)
     {
-        database.clear();
         read_all();
         for(Profile p:database)
         {
-            if(p.getUsername().equals(new_profile.getUsername()))
+            if(p.getUsername().equals(username) && p.getProfile_type()==1)
+            {
+                int new_size = Integer.valueOf(p.information.get(2))+cargo_to_add;
+                if(new_size>Integer.valueOf(p.information.get(1)))
+                {
+                    System.out.println("Courier already full");
+                    return false;
+                }
+                p.information.remove(2);
+                p.information.add(2,Integer.toString(new_size));
+            }
+        }
+        write_in_file();
+        database.clear();
+        return true;
+    }
+
+    protected static void register(Profile new_profile)
+    {
+        read_all();
+        for(Profile p:database)
+        {
+            if(p.getUsername().equals(new_profile.getUsername()) || new_profile.getUsername().equals(disposable_admin.getUsername()))
             {
                 System.out.println("Username already used");
                 return;
@@ -50,6 +79,7 @@ public class ProfileDatabase {
         write_in_file();
         database.clear();
     }
+
     private static void write_in_file()
     {
         try {
@@ -76,15 +106,25 @@ public class ProfileDatabase {
         }
     }
 
+    private static Profile contains_disposable()
+    {
+        for(Profile p:database)
+        {
+            if(p.getUsername().equals(disposable_admin.getUsername()) && p.getPassword().equals(disposable_admin.getPassword()))
+                return p;
+        }
+        return null;
+    }
+
     private static void read_all() {
+        database.clear();
+        AtomicBoolean manager_exists= new AtomicBoolean(false);
         try {
             Reader reader = Files.newBufferedReader(Paths.get("LoginDatabase.json"));
             File file = new File("LoginDatabase.json");
 
             if(file.length()!=0) {
                 JsonArray parser = (JsonArray) Jsoner.deserialize(reader);
-
-                database.clear();
 
                 parser.forEach(entry -> {
                     JsonObject item = (JsonObject) entry;
@@ -93,23 +133,53 @@ public class ProfileDatabase {
                     BigDecimal profile_type = (BigDecimal) item.get("Profile_type");
                     ArrayList<String> information = (ArrayList<String>) item.get("information");
                     Profile new_profile = new Profile(username, password,profile_type.intValue(),true, information);
+                    if(profile_type.intValue()==0)
+                        manager_exists.set(true);
                     database.add(new_profile);
                 });
 
                 reader.close();
             }
-
+            else
+            {
+                manager_exists.set(false);
+            }
         } catch (Exception ex) {
             ex.printStackTrace();
         }
+
+        no_admin=manager_exists.get();
+
+        if(!manager_exists.get()) {
+            database.add(disposable_admin);
+        }
+        else {
+            Profile disposable=contains_disposable();
+            if (disposable != null) {
+                database.remove(disposable);
+            }
+        }
+    }
+
+    public static boolean courier_exists(String username)
+    {
+        read_all();
+        for(Profile p:database)
+        {
+            if(p.getUsername().equals(username) && p.getProfile_type()==1)
+                return true;
+        }
+        return false;
     }
 
     public static void print()
     {
+        read_all();
         for(Profile p:database)
         {
             System.out.println(p.getUsername() + "->" + p.getPassword());
         }
         System.out.println();
+        database.clear();
     }
 }

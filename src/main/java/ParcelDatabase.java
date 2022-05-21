@@ -10,9 +10,9 @@ import java.util.ArrayList;
 import java.util.Arrays;
 
 public class ParcelDatabase {
-    public static ArrayList<String> empty_list = new ArrayList<>();
+    protected static long AWB_counter=31415926;
     public static ArrayList<Parcel> database = new ArrayList<>();
-    public static Parcel search_AWB(int AWB)
+    public static Parcel search_AWB(long AWB)
     {
         read_all();
         for (Parcel item:database)
@@ -24,7 +24,7 @@ public class ParcelDatabase {
         database.clear();
         return null;
     }
-    public static void delete_from_database(int AWB)
+    public static void delete_from_database(long AWB)
     {
         read_all();
         Parcel p = search_AWB(AWB);
@@ -33,9 +33,15 @@ public class ParcelDatabase {
         }
         write_in_file();
     }
+
+    public static void update_database()
+    {
+        write_in_file();
+        database.clear();
+    }
+
     public static void print_database()
     {
-        read_all();
         if(database.isEmpty())
         {
             System.out.println("Empty database");
@@ -45,7 +51,6 @@ public class ParcelDatabase {
         {
             System.out.println(parcel);
         }
-        database.clear();
     }
     public static void add_to_database(Parcel parcel)
     {
@@ -53,7 +58,7 @@ public class ParcelDatabase {
         database.add(parcel);
         write_in_file();
     }
-    private static void write_in_file()
+    protected static void write_in_file()
     {
         try {
             BufferedWriter writer = Files.newBufferedWriter(Paths.get("database.json"));
@@ -97,11 +102,13 @@ public class ParcelDatabase {
                     BigDecimal Order_Status = (BigDecimal) item.get("Order_Status");
                     BigDecimal AWB = (BigDecimal) item.get("AWB");
                     String Courier = (String) item.get("Courier");
-                    BigDecimal ETA = (BigDecimal) item.get("ETA");
+                    String ETA = (String) item.get("ETA");
                     BigDecimal Size = (BigDecimal) item.get("Size");
                     ArrayList<String> Sender_info = (ArrayList<String>) item.get("Sender_info");
                     ArrayList<String> Recipient_info = (ArrayList<String>) item.get("Recipient_info");
-                    Parcel new_parcel = new Parcel(Order_Status.intValue(), AWB.intValue(), Courier, ETA.intValue(), Size.intValue(), Sender_info, Recipient_info);
+                    Parcel new_parcel = new Parcel(Order_Status.intValue(), AWB.longValue(), Courier, ETA, Size.intValue(), Sender_info, Recipient_info);
+                    if(new_parcel.AWB>=AWB_counter)
+                        AWB_counter=new_parcel.AWB+1;
                     database.add(new_parcel);
                 });
 

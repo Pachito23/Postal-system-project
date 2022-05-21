@@ -1,21 +1,10 @@
-import java.nio.charset.StandardCharsets;
-
-import java.security.NoSuchAlgorithmException;
-import java.security.SecureRandom;
-import java.security.spec.InvalidKeySpecException;
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Base64;
-import java.util.Random;
-import javax.crypto.SecretKeyFactory;
-import javax.crypto.spec.PBEKeySpec;
-
 public class Profile {
     private String username;
     private String password;
     private int Profile_type;
-    private ArrayList<String> information= new ArrayList<>(3);
-    //0->Manager 1->Courier 2->Customer
+    protected ArrayList<String> information= new ArrayList<>(3);
+    //0->Office Manager   1->Courier   2->Customer
 
     public String getUsername()
     {
@@ -29,6 +18,11 @@ public class Profile {
     public int getProfile_type(){ return Profile_type; }
 
     public ArrayList<String> getinformation(){ return information; }
+
+    public void register(Profile new_profile)
+    {
+        ProfileDatabase.register(new_profile);
+    }
 
     public Profile()
     {
@@ -69,6 +63,7 @@ public class Profile {
 
     public static String Encrypt(String text)
     {
-        return text;
+        String encoded = text.hashCode()+"";
+        return encoded;
     }
 }
