@@ -34,7 +34,7 @@ public class Office_Manager extends Profile{
             return;
         }
 
-        //read integer number to select the entry and true or false to approve or not <-----------------------
+        //read integer number to select (1...n) the entry and true or false to approve or not <-----------------------
         //delete the down initializations
         int selected=1;
         boolean approved=true;
@@ -74,6 +74,8 @@ public class Office_Manager extends Profile{
             now=now.plusHours(hours);
             parcel.ETA=dtf.format(now);
             parcel.Courier = courier_username;
+            parcel.AWB=ParcelDatabase.AWB_counter;
+            ParcelDatabase.AWB_counter++;
             return true;
         }
         /*else
