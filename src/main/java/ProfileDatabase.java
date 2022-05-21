@@ -11,19 +11,20 @@ import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.concurrent.atomic.AtomicBoolean;
 
 public class ProfileDatabase {
     private static ArrayList<Profile> database = new ArrayList<>();
+    private static Profile disposable_admin = new Profile("Admin","Admin",0,false);
+    private static boolean no_admin=false;
 
     public static Profile login(String username, String password)
     {
         database.clear();
         read_all();
         String password_encrypted = Profile.Encrypt(password+username);
-        //System.out.println("To find:"+username+" -> "+password_encrypted);
         for(Profile p:database)
         {
-            //System.out.println("Now at:"+p.getUsername()+" -> "+p.getPassword());
             if(p.getUsername().equals(username) && p.getPassword().equals(password_encrypted)) {
                 database.clear();
                 if(p.getProfile_type()==0) {
@@ -63,13 +64,12 @@ public class ProfileDatabase {
         return true;
     }
 
-    public static void register(Profile new_profile)
+    protected static void register(Profile new_profile)
     {
-        database.clear();
         read_all();
         for(Profile p:database)
         {
-            if(p.getUsername().equals(new_profile.getUsername()))
+            if(p.getUsername().equals(new_profile.getUsername()) || new_profile.getUsername().equals(disposable_admin.getUsername()))
             {
                 System.out.println("Username already used");
                 return;
@@ -106,8 +106,19 @@ public class ProfileDatabase {
         }
     }
 
+    private static Profile contains_disposable()
+    {
+        for(Profile p:database)
+        {
+            if(p.getUsername().equals(disposable_admin.getUsername()) && p.getPassword().equals(disposable_admin.getPassword()))
+                return p;
+        }
+        return null;
+    }
+
     private static void read_all() {
         database.clear();
+        AtomicBoolean manager_exists= new AtomicBoolean(false);
         try {
             Reader reader = Files.newBufferedReader(Paths.get("LoginDatabase.json"));
             File file = new File("LoginDatabase.json");
@@ -122,14 +133,31 @@ public class ProfileDatabase {
                     BigDecimal profile_type = (BigDecimal) item.get("Profile_type");
                     ArrayList<String> information = (ArrayList<String>) item.get("information");
                     Profile new_profile = new Profile(username, password,profile_type.intValue(),true, information);
+                    if(profile_type.intValue()==0)
+                        manager_exists.set(true);
                     database.add(new_profile);
                 });
 
                 reader.close();
             }
-
+            else
+            {
+                manager_exists.set(false);
+            }
         } catch (Exception ex) {
             ex.printStackTrace();
+        }
+
+        no_admin=manager_exists.get();
+
+        if(!manager_exists.get()) {
+            database.add(disposable_admin);
+        }
+        else {
+            Profile disposable=contains_disposable();
+            if (disposable != null) {
+                database.remove(disposable);
+            }
         }
     }
 
