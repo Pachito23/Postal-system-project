@@ -27,16 +27,16 @@ public class Main {
         Profile profile1 = new Profile("Customer","123",2,false,info1);
         Profile profile2 = new Profile("Courier","789",1,false,courier_data);
         Profile profile3 = new Profile("Office Manager","abcisme",0,false,info3);
-        //admin.register(profile1);
-        //admin.register(profile2);
-        //admin.register(profile3);
+        admin.register(profile1);
+        admin.register(profile2);
+        admin.register(profile3);
         ProfileDatabase.print();
 
         Parcel p1= new Parcel(0,0,"Not set","Not set",10, info1, info1);
         Parcel p2= new Parcel(0,1,"Not set","Not set",20, info2, info2);
-        //ParcelDatabase.add_to_database(p1);
-        //ParcelDatabase.add_to_database(p2);
-        //ParcelDatabase.print_database();
+        ParcelDatabase.add_to_database(p1);
+        ParcelDatabase.add_to_database(p2);
+        ParcelDatabase.print_database();
 
         Profile temp = ProfileDatabase.login("Courier","789");
         Office_Manager office_manager = new Office_Manager();

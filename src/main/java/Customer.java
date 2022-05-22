@@ -43,7 +43,7 @@ public class Customer extends Profile{
         }
     }
 
-    public void Send_Parcel(int Size,String Recipient_FullName, String Recipient_PhoneNumber, String Recipient_Address)
+    public void Send_Parcel(int Size, String Recipient_FullName, String Recipient_PhoneNumber, String Recipient_Address)
     {
         if(Size>100)
         {
