@@ -131,7 +131,6 @@ public class ControllerParcelSearch {
                 && parcelView.getSelectionModel().getSelectedItem().getOrder_Status()==0){
             Parcel toManage = parcelView.getSelectionModel().getSelectedItem();
             if(assign_to_courier(toManage, selectedCourier.getValue().getUsername())){
-                toManage.Order_Status = 1;
                 parcelView.getItems().remove(toManage);
                 if(selectedCourier.getValue() != null){
                     int availableCapacity = Integer.parseInt(selectedCourier.getValue().information.get(1)) -
@@ -166,6 +165,7 @@ public class ControllerParcelSearch {
             parcel.ETA = dtf.format(now);
             parcel.Courier = courier_username;
             parcel.AWB = ParcelDatabase.AWB_counter;
+            parcel.Order_Status = 1;
             ParcelDatabase.AWB_counter++;
             return true;
         }

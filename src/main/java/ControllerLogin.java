@@ -29,7 +29,7 @@ public class ControllerLogin {
     public void login(ActionEvent event) throws IOException{
         if(!usernameField.getText().trim().isEmpty() && !passwordField.getText().trim().isEmpty()){
             JavaFX.loggedInAccount = ProfileDatabase.login(usernameField.getText(), passwordField.getText());
-            System.out.println(JavaFX.loggedInAccount);
+//            System.out.println(JavaFX.loggedInAccount);
         }
         else{
             message.setText("Username or password empty!");
