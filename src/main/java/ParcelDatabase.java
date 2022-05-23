@@ -24,6 +24,7 @@ public class ParcelDatabase {
         database.clear();
         return null;
     }
+
     public static void delete_from_database(long AWB)
     {
         read_all();
@@ -31,6 +32,12 @@ public class ParcelDatabase {
         if(p!=null) {
             database.remove(p);
         }
+        write_in_file();
+    }
+
+    public static void empty()
+    {
+        database.clear();
         write_in_file();
     }
 

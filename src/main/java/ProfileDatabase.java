@@ -182,4 +182,10 @@ public class ProfileDatabase {
         System.out.println();
         database.clear();
     }
+
+    public static void empty()
+    {
+        database.clear();
+        write_in_file();
+    }
 }
