@@ -15,8 +15,8 @@
       </Label>
       <TextField fx:id="awb" layoutX="151.0" layoutY="304.0" promptText="AWB Code" />
       <Button layoutX="330.0" layoutY="304.0" mnemonicParsing="false" onAction="#searchAWB" text="Search by AWB" />
-      <Button fx:id="loginButton" layoutX="330.0" layoutY="177.0" mnemonicParsing="false" onAction="#gotoLogin" prefHeight="47.0" prefWidth="82.0" text="Login" />
-      <Button layoutX="190.0" layoutY="177.0" mnemonicParsing="false" onAction="#gotoRegister" prefHeight="47.0" prefWidth="82.0" text="Register" />
+      <Button fx:id="loginButton" layoutX="336.0" layoutY="177.0" mnemonicParsing="false" onAction="#gotoLogin" prefHeight="47.0" prefWidth="82.0" text="Login" />
+      <Button layoutX="161.0" layoutY="177.0" mnemonicParsing="false" onAction="#gotoRegister" prefHeight="47.0" prefWidth="142.0" text="Register as Customer" />
       <Label fx:id="message" layoutX="153.0" layoutY="344.0" prefHeight="20.0" prefWidth="300.0">
          <font>
             <Font size="14.0" />

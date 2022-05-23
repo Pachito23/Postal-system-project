@@ -79,10 +79,8 @@ public class Courier extends Profile{
             eta = eta.plusHours(delayHours);
             toDelay.ETA = dtf.format(eta);
             ParcelDatabase.write_in_file();
-            ParcelDatabase.database.clear();
         }
 
-        ParcelDatabase.database.clear();
     }
 
     public void Parcel_delivered(Parcel toDeliver)
@@ -91,9 +89,9 @@ public class Courier extends Profile{
         {
             toDeliver.Order_Status=2;
             toDeliver.ETA="Delivered";
+            current_capacity =- toDeliver.getSize();
         }
         ParcelDatabase.write_in_file();
-        ParcelDatabase.database.clear();
     }
 
     @Override

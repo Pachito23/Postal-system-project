@@ -54,7 +54,6 @@ public class ParcelDatabase {
     public static void update_database()
     {
         write_in_file();
-        database.clear();
     }
 
     public static void print_database()
