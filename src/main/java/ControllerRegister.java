@@ -40,6 +40,8 @@ public class ControllerRegister implements Initializable {
     @FXML
     private Label usernameLabel;
 
+    @FXML Label message;
+
     private final String[] registerOps = {"Office Manager", "Courier", "Customer"};
 
     @Override
@@ -48,15 +50,36 @@ public class ControllerRegister implements Initializable {
     }
 
     public void checkValidRegistration(){
-        usernameLabel.setText("");
-        keycodeLabel.setText("");
+        Profile newProfile = null;
+        String profileName = null,
+               profilePassword = null,
+               profileKeycode = null,
+                option = null;
 
-        if(usernameField.getText().equals("monkey")){
-            usernameLabel.setText("Username is already taken!");
+        try{
+            option = registerOptions.getValue();
+            profileName = usernameField.getText();
+            profilePassword = passwordField.getText();
+            if(option.equals("Office Manager") || option.equals("Courier"))
+                profileKeycode = keycodeField.getText();
+        } catch (RuntimeException e){
+            message.setText("If registering as a manager or a courier, use a valid keycode. Otherwise, all fields must be completed.");
+            return;
         }
-        if(!(keycodeField.getText().equals("admin"))){
-            keycodeLabel.setText("Keycode invalid!");
-        }
+        if(registerOptions.getValue() == "Office Manager" && keycodeField.getText().equals("admin")){
+            newProfile = new Profile(usernameField.getText(), passwordField.getText(), 0, false);
+        } else if(registerOptions.getValue().equals("Courier") && keycodeField.getText().equals("admin")){
+            newProfile = new Profile(usernameField.getText(), passwordField.getText(), 1, false);
+        } else if(registerOptions.getValue().equals("Customer"))
+            newProfile = new Profile(usernameField.getText(), passwordField.getText(), 2, false);
+
+        int registerResult = ProfileDatabase.register(newProfile);
+
+        if(registerResult == -1)
+            message.setText("Username already in use!");
+        else if(registerResult == 0)
+            message.setText("Successfully registered as " + usernameField.getText());
+
     }
 
 

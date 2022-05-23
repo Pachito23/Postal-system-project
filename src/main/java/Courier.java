@@ -20,22 +20,18 @@ public class Courier extends Profile{
 
     }
 
-    public void check_assigned_deliveries()
+    public ArrayList<Parcel> get_deliveries()
     {
+        ArrayList<Parcel> assignedDeliveries = new ArrayList<>();
         ParcelDatabase.read_all();
         for(Parcel p:ParcelDatabase.database)
         {
             //make check deliveries check only the respective customer
             if(check_info(p)) {
-                System.out.println("Order status: " + p.Order_Status);
-                System.out.println("AWB: " + p.AWB);
-                System.out.println("ETA: " + p.ETA);
-                System.out.println("Size: " + p.Size);
-                System.out.print("\tSender info: \n" + p.personal_info(p.Sender_info));
-                System.out.println("\tRecipient info: \n" + p.personal_info(p.Recipient_info));
-                System.out.println();
+                assignedDeliveries.add(p);
             }
         }
+        return assignedDeliveries;
     }
 
     private boolean check_info(Parcel p)
@@ -74,19 +70,36 @@ public class Courier extends Profile{
         }
         ParcelDatabase.database.clear();
     }
-
-    public void Parcel_delivered(long AWB)
+    public void delay_ETA_by_instance(Parcel toDelay, int delayHours)
     {
-        ParcelDatabase.read_all();
-        Parcel p = ParcelDatabase.search_AWB(AWB);
-        if(p!=null && p.AWB!=0 && check_info(p))
+        if(toDelay!=null && toDelay.AWB!=0 && check_info(toDelay))
         {
-            p.Order_Status=2;
-            p.ETA="Delivered";
+            DateTimeFormatter dtf = DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm:ss");
+            LocalDateTime eta = LocalDateTime.parse(toDelay.ETA,dtf);
+            eta = eta.plusHours(delayHours);
+            toDelay.ETA = dtf.format(eta);
+            ParcelDatabase.write_in_file();
+            ParcelDatabase.database.clear();
         }
-        else
-            System.out.println("Trouble finding the parcel");
+
+        ParcelDatabase.database.clear();
+    }
+
+    public void Parcel_delivered(Parcel toDeliver)
+    {
+        if(check_info(toDeliver))
+        {
+            toDeliver.Order_Status=2;
+            toDeliver.ETA="Delivered";
+        }
         ParcelDatabase.write_in_file();
         ParcelDatabase.database.clear();
+    }
+
+    @Override
+    public String toString() {
+        return "Username: " + super.toString() +
+                "\nVehicle: " + vehicle_type +
+                "\nCapacity: " + current_capacity + " / " + max_capacity;
     }
 }

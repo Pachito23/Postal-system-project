@@ -6,11 +6,11 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
-import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
 
 import java.io.IOException;
+import java.util.ArrayList;
 
 public class ControllerMainMenu {
 
@@ -20,10 +20,32 @@ public class ControllerMainMenu {
     private Parent root;
 
     @FXML
-    private Button print;
+    TextField awb;
+    @FXML
+    Label message;
 
-    public void testPrint(){
-        System.out.println("Here I am!");
+    public void searchAWB(ActionEvent event) throws IOException {
+
+        if(awb.getText().trim().isEmpty() || !awb.getText().matches("[0-9]+")){
+            message.setText("Input a digits-only AWB!");
+        } else {
+            ArrayList<Parcel> parcels = new ArrayList<Parcel>();
+            int AWBToSearch = Integer.parseInt(awb.getText());
+            ParcelDatabase.read_all();
+            for (Parcel item : ParcelDatabase.database) {
+                if (item.AWB == AWBToSearch)
+                    parcels.add(item);
+            }
+            ParcelDatabase.database.clear();
+            if (parcels.isEmpty()) {
+                message.setText("No parcel found.");
+
+            } else {
+                ControllerParcelSearch.setToAdd(parcels);
+                gotoParcelSearch(event);
+            }
+        }
+
     }
 
     public void gotoRegister(ActionEvent event) throws IOException {
@@ -41,6 +63,16 @@ public class ControllerMainMenu {
         stage.setScene(scene);
         stage.show();
     }
+
+    public void gotoParcelSearch(ActionEvent event) throws IOException {
+        ControllerParcelSearch.setLastScene("mainmenu.fxml");
+        root = FXMLLoader.load(getClass().getResource("parcelsearch.fxml"));
+        stage = (Stage)((Node)event.getSource()).getScene().getWindow();
+        scene = new Scene(root);
+        stage.setScene(scene);
+        stage.show();
+    }
+
 
 
 }
