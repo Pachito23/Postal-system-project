@@ -21,8 +21,11 @@
         <TextField fx:id="usernameField" layoutX="226.0" layoutY="200.0" promptText="Username" />
         <PasswordField fx:id="passwordField" layoutX="226.0" layoutY="239.0" promptText="Password" />
         <PasswordField fx:id="keycodeField" layoutX="226.0" layoutY="279.0" promptText="Keycode" />
-        <Button layoutX="271.0" layoutY="336.0" mnemonicParsing="false" onAction="#checkValidRegistration" text="Register" />
-        <Label fx:id="keycodeLabel" layoutX="408.0" layoutY="283.0" />
-        <Label fx:id="usernameLabel" layoutX="408.0" layoutY="204.0" />
+        <Button layoutX="271.0" layoutY="349.0" mnemonicParsing="false" onAction="#checkValidRegistration" text="Register" />
+        <Label fx:id="message" layoutX="163.0" layoutY="319.0" prefHeight="17.0" prefWidth="276.0" textAlignment="CENTER">
+            <font>
+                <Font size="14.0" />
+            </font>
+        </Label>
     </children>
 </AnchorPane>

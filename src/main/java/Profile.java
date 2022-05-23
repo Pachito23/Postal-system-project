@@ -61,6 +61,12 @@ public class Profile {
         }
     }
 
+    @Override
+    public String toString() {
+        return  username;
+
+    }
+
     public static String Encrypt(String text)
     {
         String encoded = text.hashCode()+"";

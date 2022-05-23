@@ -25,22 +25,18 @@ public class Customer extends Profile{
         return false;
     }
 
-    public void check_deliveries()
+    public ArrayList<Parcel> get_deliveries()
     {
+        ArrayList<Parcel> associatedDeliveries = new ArrayList<Parcel>();
         ParcelDatabase.read_all();
         for(Parcel p:ParcelDatabase.database)
         {
             //make check deliveries check only the respective customer
-            if(check_info(p.Sender_info)) {
-                System.out.println("Order status: " + p.Order_Status);
-                System.out.println("AWB: " + p.AWB);
-                System.out.println("ETA: " + p.ETA);
-                System.out.println("Size: " + p.Size);
-                System.out.print("\tSender info: \n" + p.personal_info(p.Sender_info));
-                System.out.println("\tRecipient info: \n" + p.personal_info(p.Recipient_info));
-                System.out.println();
+            if(check_info(p.Sender_info) || check_info(p.Recipient_info)) {
+                associatedDeliveries.add(p);
             }
         }
+        return associatedDeliveries;
     }
 
     public void Send_Parcel(int Size, String Recipient_FullName, String Recipient_PhoneNumber, String Recipient_Address)
@@ -60,5 +56,13 @@ public class Customer extends Profile{
             Parcel p = new Parcel(0,0,"Not set","Not set",Size,personal_info,recipient_info);
             ParcelDatabase.add_to_database(p);
         }
+    }
+
+    @Override
+    public String toString() {
+        return personal_info.get(0) +
+                "\nPhone Number: " + personal_info.get(1) +
+                "\nAddress: " + personal_info.get(2) +
+                "\nUsername: " + super.toString();
     }
 }

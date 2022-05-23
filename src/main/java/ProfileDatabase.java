@@ -6,6 +6,7 @@ import java.io.BufferedWriter;
 import java.io.File;
 import java.io.IOException;
 import java.io.Reader;
+import java.lang.reflect.Array;
 import java.math.BigDecimal;
 import java.nio.file.Files;
 import java.nio.file.Paths;
@@ -13,10 +14,9 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.concurrent.atomic.AtomicBoolean;
 
-public class ProfileDatabase {
-    private static ArrayList<Profile> database = new ArrayList<>();
-    private static Profile disposable_admin = new Profile("Admin","Admin",0,false);
-    private static boolean no_admin=false;
+public class    ProfileDatabase {
+    public static ArrayList<Profile> database = new ArrayList<>();
+    public static Profile disposable_admin = new Profile("Admin","Admin",0,false);
 
     public static Profile login(String username, String password)
     {
@@ -42,29 +42,43 @@ public class ProfileDatabase {
         return null;
     }
 
-    public static boolean Add_cargo_courier(String username,int cargo_to_add)
-    {
+    // Functionality moved to ControllerParcelSearch
+
+//    public static boolean Add_cargo_courier(String username,int cargo_to_add)
+//    {
+//        read_all();
+//        for(Profile p:database)
+//        {
+//            if(p.getUsername().equals(username) && p.getProfile_type()==1)
+//            {
+//                int new_size = Integer.valueOf(p.information.get(2))+cargo_to_add;
+//                if(new_size>Integer.valueOf(p.information.get(1)))
+//                {
+//
+//                    return false;
+//                }
+//                p.information.remove(2);
+//                p.information.add(2,Integer.toString(new_size));
+//            }
+//        }
+//        write_in_file();
+//        database.clear();
+//        return true;
+//    }
+
+    public static ArrayList<Profile> retrieveAllOfAType(int profileType){
         read_all();
-        for(Profile p:database)
-        {
-            if(p.getUsername().equals(username) && p.getProfile_type()==1)
-            {
-                int new_size = Integer.valueOf(p.information.get(2))+cargo_to_add;
-                if(new_size>Integer.valueOf(p.information.get(1)))
-                {
-                    System.out.println("Courier already full");
-                    return false;
-                }
-                p.information.remove(2);
-                p.information.add(2,Integer.toString(new_size));
-            }
+        ArrayList<Profile> toReturn = new ArrayList<>();
+        for(Profile p: database){
+            if(p.getProfile_type() == profileType)
+                toReturn.add(p);
         }
-        write_in_file();
-        database.clear();
-        return true;
+
+
+        return toReturn;
     }
 
-    protected static void register(Profile new_profile)
+    protected static int register(Profile new_profile)
     {
         read_all();
         for(Profile p:database)
@@ -72,15 +86,16 @@ public class ProfileDatabase {
             if(p.getUsername().equals(new_profile.getUsername()) || new_profile.getUsername().equals(disposable_admin.getUsername()))
             {
                 System.out.println("Username already used");
-                return;
+                return -1;
             }
         }
         database.add(new_profile);
         write_in_file();
         database.clear();
+        return 0;
     }
 
-    private static void write_in_file()
+    static void write_in_file()
     {
         try {
             BufferedWriter writer = Files.newBufferedWriter(Paths.get("LoginDatabase.json"));
@@ -116,7 +131,7 @@ public class ProfileDatabase {
         return null;
     }
 
-    private static void read_all() {
+    static void read_all() {
         database.clear();
         AtomicBoolean manager_exists= new AtomicBoolean(false);
         try {
@@ -148,7 +163,6 @@ public class ProfileDatabase {
             ex.printStackTrace();
         }
 
-        no_admin=manager_exists.get();
 
         if(!manager_exists.get()) {
             database.add(disposable_admin);
@@ -177,7 +191,7 @@ public class ProfileDatabase {
         read_all();
         for(Profile p:database)
         {
-            System.out.println(p.getUsername() + "->" + p.getPassword());
+            System.out.println(p);
         }
         System.out.println();
         database.clear();

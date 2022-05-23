@@ -12,6 +12,7 @@ import java.util.Arrays;
 public class ParcelDatabase {
     protected static long AWB_counter=31415926;
     public static ArrayList<Parcel> database = new ArrayList<>();
+
     public static Parcel search_AWB(long AWB)
     {
         read_all();
@@ -25,7 +26,7 @@ public class ParcelDatabase {
         return null;
     }
 
-    public static void delete_from_database(long AWB)
+    public static void delete_from_database_by_AWB(long AWB)
     {
         read_all();
         Parcel p = search_AWB(AWB);
@@ -41,6 +42,15 @@ public class ParcelDatabase {
         write_in_file();
     }
 
+    public static void exists_in_database(Parcel toSearch){
+        System.out.println("Database has object: "+ database.contains(toSearch));
+    }
+
+    public static void delete_from_database_by_instance(Parcel toDelete){
+        read_all();
+        database.remove(toDelete);
+        write_in_file();
+    }
     public static void update_database()
     {
         write_in_file();
@@ -65,7 +75,13 @@ public class ParcelDatabase {
         database.add(parcel);
         write_in_file();
     }
-    protected static void write_in_file()
+
+    public static void delete_database(){
+        database.clear();
+        write_in_file();
+    }
+
+    static void write_in_file()
     {
         try {
             BufferedWriter writer = Files.newBufferedWriter(Paths.get("database.json"));
