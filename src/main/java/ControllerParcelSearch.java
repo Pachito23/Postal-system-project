@@ -138,9 +138,9 @@ public class ControllerParcelSearch {
                             Integer.parseInt(selectedCourier.getValue().information.get(2));
                     messageManagerLabel.setText("Free capacity: " + (availableCapacity - toManage.getSize()));
                 }
+                ParcelDatabase.update_database();
+                parcelView.refresh();
             }
-            ParcelDatabase.update_database();
-            parcelView.refresh();
         } else
             messageManagerLabel.setText("Select a courier first!");
     }

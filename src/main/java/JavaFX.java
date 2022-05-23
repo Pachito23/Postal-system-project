@@ -44,13 +44,12 @@ public class JavaFX extends Application {
         courier_data.add("100");
         courier_data.add("5");
 
-
         Profile profile1 = new Profile("Customer","123",2,false,info1);
         Profile profile2 = new Profile("Courier","789",1,false,courier_data);
         Profile profile3 = new Profile("Office Manager","abcisme",0,false,info3);
-//        admin.register(profile1);
-        ProfileDatabase.register(profile2);
-        ProfileDatabase.register(profile3);
+//        ProfileDatabase.register(profile1);
+//        ProfileDatabase.register(profile2);
+//        ProfileDatabase.register(profile3);
 
         Profile temp = ProfileDatabase.login("Courier","789");
         Office_Manager office_manager = new Office_Manager();

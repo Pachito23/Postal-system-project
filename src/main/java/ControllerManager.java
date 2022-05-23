@@ -16,6 +16,7 @@ public class ControllerManager {
     private Scene scene;
     private Parent root;
     private ArrayList<Parcel> unassignedParcels = new ArrayList<>();
+    private String[] options = {"Office Manager", "Courier"};
     private Office_Manager loggedInAccount;
 
     @FXML
@@ -31,7 +32,11 @@ public class ControllerManager {
     @FXML
     Label message;
     @FXML
+    ComboBox<String> accountOption;
+
+    @FXML
     public void initialize(){
+        accountOption.getItems().addAll(options);
         ParcelDatabase.read_all();
         loggedInAccount = (Office_Manager)JavaFX.loggedInAccount;
 
