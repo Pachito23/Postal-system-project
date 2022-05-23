@@ -91,7 +91,6 @@ public class    ProfileDatabase {
         }
         database.add(new_profile);
         write_in_file();
-        database.clear();
         return 0;
     }
 
