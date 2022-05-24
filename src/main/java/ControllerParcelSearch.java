@@ -24,6 +24,7 @@ public class ControllerParcelSearch {
     private static ArrayList<Parcel> toAdd;
     private static String lastScene;
     private static int visibility = 2;
+    private int courierWeight;
 
     @FXML
     public TableView<Parcel> parcelView;
@@ -130,25 +131,22 @@ public class ControllerParcelSearch {
         if(selectedCourier.getValue() != null && parcelView.getSelectionModel().getSelectedItem() != null
                 && parcelView.getSelectionModel().getSelectedItem().getOrder_Status()==0){
             Parcel toManage = parcelView.getSelectionModel().getSelectedItem();
-            if(assign_to_courier(toManage, selectedCourier.getValue().getUsername())){
-                parcelView.getItems().remove(toManage);
-                if(selectedCourier.getValue() != null){
-                    int availableCapacity = Integer.parseInt(selectedCourier.getValue().information.get(1)) -
-                            Integer.parseInt(selectedCourier.getValue().information.get(2));
-                    messageManagerLabel.setText("Free capacity: " + (availableCapacity - toManage.getSize()));
-                }
+            if(assign_to_courier(toManage, selectedCourier.getValue().getUsername())) {
+                    parcelView.getItems().remove(toManage);
+                    courierWeight -= toManage.Size;
+                    messageManagerLabel.setText("Free capacity: " + courierWeight);
+            }
                 ParcelDatabase.update_database();
                 parcelView.refresh();
-            }
         } else
-            messageManagerLabel.setText("Select a courier first!");
+        messageManagerLabel.setText("Select a courier first!");
     }
 
     public void displaySelectedCourierCapacity(ActionEvent event) throws IOException{
         if(selectedCourier.getValue() != null){
-            int availableCapacity = Integer.parseInt(selectedCourier.getValue().information.get(1)) -
+            courierWeight = Integer.parseInt(selectedCourier.getValue().information.get(1)) -
                     Integer.parseInt(selectedCourier.getValue().information.get(2));
-            messageManagerLabel.setText("Free capacity: " + availableCapacity);
+            messageManagerLabel.setText("Free capacity: " + courierWeight);
         }
     }
 

@@ -26,6 +26,7 @@ public class    ProfileDatabase {
         for(Profile p:database)
         {
             if(p.getUsername().equals(username) && p.getPassword().equals(password_encrypted)) {
+                System.out.println("here i am");
                 database.clear();
                 if(p.getProfile_type()==0) {
                     return new Office_Manager(p.getUsername(), p.getPassword(), p.getProfile_type(), true, p.getinformation());
@@ -171,6 +172,18 @@ public class    ProfileDatabase {
             if (disposable != null) {
                 database.remove(disposable);
             }
+        }
+    }
+
+    public static Profile get_courier(String username){
+        {
+            read_all();
+            for(Profile p:database)
+            {
+                if(p.getUsername().equals(username) && p.getProfile_type()==1)
+                    return (Profile)p;
+            }
+            return null;
         }
     }
 
