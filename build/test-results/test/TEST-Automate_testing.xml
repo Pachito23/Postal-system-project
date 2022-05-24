@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<testsuite name="Automate_testing" tests="8" skipped="0" failures="0" errors="0" timestamp="2022-05-24T19:20:42" hostname="DESKTOP-9SANCEM" time="0.086">
+<testsuite name="Automate_testing" tests="8" skipped="0" failures="0" errors="0" timestamp="2022-05-24T19:27:10" hostname="DESKTOP-9SANCEM" time="0.072">
   <properties/>
   <testcase name="create_parcel()" classname="Automate_testing" time="0.021"/>
   <testcase name="profile_create()" classname="Automate_testing" time="0.001"/>
-  <testcase name="check_by_AWB()" classname="Automate_testing" time="0.021"/>
-  <testcase name="send_parcel()" classname="Automate_testing" time="0.007"/>
-  <testcase name="register_admin()" classname="Automate_testing" time="0.005"/>
-  <testcase name="delay()" classname="Automate_testing" time="0.015"/>
-  <testcase name="login_admin()" classname="Automate_testing" time="0.002"/>
+  <testcase name="check_by_AWB()" classname="Automate_testing" time="0.012"/>
+  <testcase name="send_parcel()" classname="Automate_testing" time="0.008"/>
+  <testcase name="register_admin()" classname="Automate_testing" time="0.004"/>
+  <testcase name="delay()" classname="Automate_testing" time="0.014"/>
+  <testcase name="login_admin()" classname="Automate_testing" time="0.001"/>
   <testcase name="deliver_parcel()" classname="Automate_testing" time="0.009"/>
   <system-out><![CDATA[Test 4 passed
 Test 3 passed
