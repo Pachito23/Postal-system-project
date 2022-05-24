@@ -26,7 +26,6 @@ public class    ProfileDatabase {
         for(Profile p:database)
         {
             if(p.getUsername().equals(username) && p.getPassword().equals(password_encrypted)) {
-                System.out.println("here i am");
                 database.clear();
                 if(p.getProfile_type()==0) {
                     return new Office_Manager(p.getUsername(), p.getPassword(), p.getProfile_type(), true, p.getinformation());
@@ -82,14 +81,16 @@ public class    ProfileDatabase {
     protected static int register(Profile new_profile)
     {
         read_all();
-        for(Profile p:database)
-        {
-            if(p.getUsername().equals(new_profile.getUsername()) || new_profile.getUsername().equals(disposable_admin.getUsername()))
-            {
-                System.out.println("Username already used");
-                return -1;
-            }
-        }
+        // Functionality moved to ControllerRegister
+
+//        for(Profile p:database)
+//        {
+//            if(p.getUsername().equals(new_profile.getUsername()) || new_profile.getUsername().equals(disposable_admin.getUsername()))
+//            {
+//                System.out.println("Username already used");
+//                return -1;
+//            }
+//        }
         database.add(new_profile);
         write_in_file();
         return 0;
@@ -148,8 +149,9 @@ public class    ProfileDatabase {
                     BigDecimal profile_type = (BigDecimal) item.get("Profile_type");
                     ArrayList<String> information = (ArrayList<String>) item.get("information");
                     Profile new_profile = new Profile(username, password,profile_type.intValue(),true, information);
-                    if(profile_type.intValue()==0)
+                    if(profile_type.intValue()==0 && !new_profile.getUsername().equals("Admin")){
                         manager_exists.set(true);
+                    }
                     database.add(new_profile);
                 });
 

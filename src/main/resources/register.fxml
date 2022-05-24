@@ -22,7 +22,7 @@
         <TextField fx:id="phoneNumberField" layoutX="227.0" layoutY="217.0" promptText="Phone Number" />
         <TextArea fx:id="addressField" layoutX="226.0" layoutY="258.0" prefHeight="87.0" prefWidth="149.0" promptText="Address" />
         <Button layoutX="270.0" layoutY="361.0" mnemonicParsing="false" onAction="#registerCustomer" text="Register" />
-        <Label fx:id="message" layoutX="408.0" layoutY="91.0" prefHeight="133.0" prefWidth="149.0" textAlignment="CENTER">
+        <Label fx:id="message" layoutX="408.0" layoutY="91.0" prefHeight="133.0" prefWidth="149.0" textAlignment="CENTER" wrapText="true">
             <font>
                 <Font size="14.0" />
             </font>

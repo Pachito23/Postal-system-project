@@ -65,6 +65,7 @@ public class ControllerMainMenu {
     }
 
     public void gotoParcelSearch(ActionEvent event) throws IOException {
+        ControllerParcelSearch.setVisibility(2);
         ControllerParcelSearch.setLastScene("mainmenu.fxml");
         root = FXMLLoader.load(getClass().getResource("parcelsearch.fxml"));
         stage = (Stage)((Node)event.getSource()).getScene().getWindow();

@@ -45,6 +45,18 @@ public class ControllerRegister{
         } else if(!phoneNumberField.getText().matches("[0-9]+")){
             message.setText("Phone number must be digits-only!");
         }else{
+            // Taken from ProfileDatabase.register to manage same username
+            ProfileDatabase.read_all();
+            for(Profile p:ProfileDatabase.database)
+            {
+                if(p.getUsername().equals(usernameField.getText()) || usernameField.getText().equals("Admin"))
+                {
+                    message.setText("Username already used");
+                    usernameField.clear();
+                    return;
+                }
+            }
+
             ArrayList<String> info = new ArrayList<>();
             info.add(fullNameField.getText());
             info.add(phoneNumberField.getText());
