@@ -1,4 +1,6 @@
 
+import org.junit.jupiter.api.AfterAll;
+import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Test;
 
 import java.util.ArrayList;
@@ -168,5 +170,12 @@ class Automate_testing {
             System.out.println("Test 8 passed");
         else
             System.out.println("Test 8 failed");
+    }
+
+    @AfterEach
+    void reset()
+    {
+        ParcelDatabase.empty();
+        ProfileDatabase.empty();
     }
 }
