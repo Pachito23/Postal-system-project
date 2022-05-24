@@ -1,4 +1,6 @@
 
+import org.junit.jupiter.api.AfterAll;
+import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Test;
 
 import java.util.ArrayList;
@@ -129,6 +131,51 @@ class Automate_testing {
             System.out.println("Test 6 failed");
     }
 
-    //@Test
-    //void
+    @Test
+    void deliver_parcel()
+    {
+        start_up();
+        ParcelDatabase.empty();
+        ArrayList<String> info2 = new ArrayList<>();
+        info2.add("Hugh Jass");
+        info2.add("69");
+        info2.add("Oral Plaza");
+        Parcel p= new Parcel(1,120,"Courier","28/05/2022 05:40:00",20, info2, info2);
+        ParcelDatabase.add_to_database(p);
+        Courier courier = (Courier) ProfileDatabase.login("Courier","789");
+        courier.Parcel_delivered(ParcelDatabase.search_AWB(120));
+        if(ParcelDatabase.search_AWB(120).Order_Status==2)
+            System.out.println("Test 7 passed");
+        else
+            System.out.println("Test 7 failed");
+    }
+
+    @Test
+    void delay()
+    {
+        start_up();
+        ParcelDatabase.empty();
+        Courier courier = (Courier) ProfileDatabase.login("Courier","789");
+        long AWB=120;
+        ArrayList<String> info2 = new ArrayList<>();
+        info2.add("Hugh Jass");
+        info2.add("69");
+        info2.add("Oral Plaza");
+        Parcel p= new Parcel(1,120,"Courier","28/05/2022 05:40:00",20, info2, info2);
+        ParcelDatabase.add_to_database(p);
+        String initial_ETA = ParcelDatabase.search_AWB(AWB).ETA;
+        courier.delay_ETA(AWB);
+        String final_ETA = ParcelDatabase.search_AWB(AWB).ETA;
+        if(!initial_ETA.equals(final_ETA))
+            System.out.println("Test 8 passed");
+        else
+            System.out.println("Test 8 failed");
+    }
+
+    @AfterEach
+    void reset()
+    {
+        ParcelDatabase.empty();
+        ProfileDatabase.empty();
+    }
 }
