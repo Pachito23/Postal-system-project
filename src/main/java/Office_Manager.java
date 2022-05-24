@@ -101,8 +101,8 @@ public class Office_Manager extends Profile{
     @Override
     public String toString() {
         return "Username: " + super.toString() +
-                "Name: " + personal_info.get(0) +
-                "Office Phone Number: " + personal_info.get(1) +
-                "Office Address: " + personal_info.get(2);
+                "\nName: " + personal_info.get(0) +
+                "\nOffice Phone Number: " + personal_info.get(1) +
+                "\nOffice Address: " + personal_info.get(2);
     }
 }

@@ -64,7 +64,7 @@ public class ControllerCustomer {
             recipientData.add(recipientAddressField.getText());
 
 
-            Parcel toSend = new Parcel(0, -845, "", "",
+            Parcel toSend = new Parcel(0, -1, "Not Set", "Not Set",
                     Integer.parseInt(parcelSizeField.getText()), loggedInAccount.personal_info , recipientData);
             ParcelDatabase.add_to_database(toSend);
             refreshParcels();

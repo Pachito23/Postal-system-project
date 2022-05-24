@@ -85,12 +85,19 @@ public class Courier extends Profile{
 
     public void Parcel_delivered(Parcel toDeliver)
     {
+        ProfileDatabase.read_all();
         if(check_info(toDeliver))
         {
             toDeliver.Order_Status=2;
             toDeliver.ETA="Delivered";
-            current_capacity =- toDeliver.getSize();
+            current_capacity -= toDeliver.getSize();
+
+            Profile databaseCourier = ProfileDatabase.get_courier(getUsername());
+            int currentCapacity = Integer.parseInt(databaseCourier.information.get(2));
+            databaseCourier.information.remove(2);
+            databaseCourier.information.add(2, String.valueOf(currentCapacity - toDeliver.getSize()));
         }
+        ProfileDatabase.write_in_file();
         ParcelDatabase.write_in_file();
     }
 

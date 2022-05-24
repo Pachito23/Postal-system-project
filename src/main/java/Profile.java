@@ -3,7 +3,7 @@ public class Profile {
     private String username;
     private String password;
     private int Profile_type;
-    protected ArrayList<String> information= new ArrayList<>(3);
+    public ArrayList<String> information= new ArrayList<>(3);
     //0->Office Manager   1->Courier   2->Customer
 
     public String getUsername()

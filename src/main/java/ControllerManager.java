@@ -48,7 +48,8 @@ public class ControllerManager implements Initializable {
         loggedInAccount = (Office_Manager)JavaFX.loggedInAccount;
 
 
-//        loggedInAsLabel.setText("Logged in as\n" + loggedInAccount.toString());
+        if(!loggedInAccount.personal_info.isEmpty())
+            loggedInAsLabel.setText("Logged in as\n" + loggedInAccount.toString());
 
 
         if(ParcelDatabase.database.isEmpty())
